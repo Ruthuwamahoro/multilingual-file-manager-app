@@ -15,18 +15,16 @@ router.get("/login", (req, res) => {
     res.render("login", { error: null });
 });
 
-// Handle Signup Form Submission
-// Handle Signup Form Submission
-// Handle Signup Form Submission
+
 router.post("/signup", async (req, res) => {
     try {
-        const { fullName, email, gender, telephone, password } = req.body;
+        const { username, email, gender, telephone, password } = req.body;
 
         // Log the received data to inspect
-        console.log("Received data:", { fullName, email, gender, telephone, password });
+        console.log("Received data:", { username, email, gender, telephone, password });
 
         // Validate that all fields are provided
-        if (!fullName || !email || !gender || !telephone || !password) {
+        if (!username || !email || !gender || !telephone || !password) {
             return res.json({ status: 400, error: "All fields are required" });
         }
 
@@ -34,7 +32,7 @@ router.post("/signup", async (req, res) => {
         const hash = await bcrypt.hash(password, saltRounds);
 
         const saveUser = new User({
-            fullName,
+            username,
             email,
             gender,
             telephone,
@@ -51,28 +49,29 @@ router.post("/signup", async (req, res) => {
 });
 
 
-// Handle Login Form Submission
 router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
 
         const user = await User.findOne({ email });
         if (!user) {
-            return res.render("login", { error: "Invalid email or password" });
+            return res.status(400).json({ error: "Invalid email" });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.render("login", { error: "Invalid email or password" });
+            return res.status(400).json({ error: "Invalid password" });
         }
 
         const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
-
-        res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
-        res.redirect("/dashboard"); // Change this to your dashboard route
+        return res.json({ message: "Login successful", token });
     } catch (error) {
-        res.render("login", { error: "An unexpected error occurred. Please try again." });
+        console.error("Server error:", error);
+        return res.status(500).json({ error: "An unexpected error occurred. Please try again." });
     }
 });
+
+
+
 
 export default router;

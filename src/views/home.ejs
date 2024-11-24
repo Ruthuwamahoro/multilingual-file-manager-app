@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <!-- <link rel="stylesheet" href="/styles.css"> Optional: Link to a CSS file -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f4f4f9;
+    }
+    .container {
+      text-align: center;
+      padding: 2rem;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+    }
+    h1 {
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      color: #333;
+    }
+    .buttons {
+      margin-top: 1.5rem;
+    }
+    .buttons a {
+      text-decoration: none;
+      padding: 0.75rem 1.5rem;
+      margin: 0 0.5rem;
+      border-radius: 4px;
+      color: #fff;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    .login {
+      background-color: #007bff;
+    }
+
+    .signup {
+      background-color: magenta;
+    }
+   
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome to Our Platform</h1>
+    <p>Please choose an option below:</p>
+    <div class="buttons">
+      <a href="/users/login" class="login">Log In</a>
+      <a href="/users/signup" class="signup">Sign Up</a>
+    </div>
+  </div>
+</body>
+</html>
