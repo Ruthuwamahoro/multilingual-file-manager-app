@@ -1,86 +1,78 @@
-const User = require('../models/user');
-const express = require('express');
+import express from "express";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import User from "../models/user.js";
+
 const router = express.Router();
-require('dotenv').config();
-const { registerSchema, options } = require('../utils/validate');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 
+// Render Signup Page
+router.get("/signup", (req, res) => {
+    res.render("signup", { error: null });
+});
 
+// Render Login Page
+router.get("/login", (req, res) => {
+    res.render("login", { error: null });
+});
 
+// Handle Signup Form Submission
+// Handle Signup Form Submission
+// Handle Signup Form Submission
+router.post("/signup", async (req, res) => {
+    try {
+        const { fullName, email, gender, telephone, password } = req.body;
 
-router.post("/", async(req, res) => {
-    try{
+        // Log the received data to inspect
+        console.log("Received data:", { fullName, email, gender, telephone, password });
 
-        const result = registerSchema.validate(req.body, options);
-        if (result.error) {
-            const messageError = result.error.details.map((error) => error.message).join(', ');
-            return res.status(400).json({ status: 400, error: messageError });
+        // Validate that all fields are provided
+        if (!fullName || !email || !gender || !telephone || !password) {
+            return res.json({ status: 400, error: "All fields are required" });
         }
-        const { fullName, email, gender, telephone, password} = await req.body()
+
         const saltRounds = 10;
         const hash = await bcrypt.hash(password, saltRounds);
-    
+
         const saveUser = new User({
             fullName,
             email,
             gender,
             telephone,
-            password: hash
-        })
-        await saveUser.save()
-        res.json({ status: 200, message: "User registered successfully", data: null });
-    } catch(err){
-        res.json({status:500, message: "Unexpected error occurred", data: error.message})
-    }
+            password: hash,
+        });
+        await saveUser.save();
 
+        res.json({ status: 200, message: 'Sign Up successful' });
+
+    } catch (error) {
+        console.error("Error during signup:", error);
+        res.json({ status: 500, error: `Error registering user. ${error.message}` });
+    }
 });
 
 
-async function validateUser(email, password, done) {
-    try {
-        const user = await User.findOne({ email });
-        if (!user || !(await bcrypt.compare(password, user.password))) {
-            return done(null, false, { message: "Invalid email or password" });
-        }
-        return done(null, user);
-    } catch (err) {
-        return done(err);
-    }
-}
-
-passport.use(new LocalStrategy(validateUser));
-
-
-router.post('/login', async (req, res, next) => {
+// Handle Login Form Submission
+router.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
 
-        if (!email || !password) {
-            return res.status(400).json({ status: 400, error: "Email and password are required" });
-        }
-
         const user = await User.findOne({ email });
         if (!user) {
-            return res.status(400).json({ status: 400, error: "Invalid email or password" });
+            return res.render("login", { error: "Invalid email or password" });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            return res.status(400).json({ status: 400, error: "Invalid email or password" });
+            return res.render("login", { error: "Invalid email or password" });
         }
 
-        const tokenPayload = { email: user.email, role: 'user' };
-        const token = jwt.sign(tokenPayload, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+        const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
 
-        res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-        res.header('Authorization', `Bearer ${token}`);
-        res.json({ status: 200, message: "Login successful", token });
-    } catch (err) {
-        console.error(err);
-        next(err);
+        res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
+        res.redirect("/dashboard"); // Change this to your dashboard route
+    } catch (error) {
+        res.render("login", { error: "An unexpected error occurred. Please try again." });
     }
 });
+
 export default router;

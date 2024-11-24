@@ -1,14 +1,13 @@
-import mongoose from 'mongoose'; 
-// import { v4 as uuidV4 } from 'uuid';
-
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
-  fullName: { type: String, required: true },
-  email: { type: String, required: true },
-  gender: { type: String },
-  telephone: { type: String, required: true },
-  password: { type: String, required: true },
+    fullName: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
+    gender: { type: String, required: true },
+    telephone: { type: String, required: true },
+    password: { type: String, required: true },
 });
 
+const User = mongoose.model('User', userSchema);
 
-export default mongoose.model('User', userSchema);
+export default User;
