@@ -45,9 +45,8 @@
             const formData = new FormData(this);
             const data = new URLSearchParams(formData).toString();
     
-            console.log("Form data:", data); // Log form data to inspect
+            console.log("Form data:", data); 
     
-            // Submit data via AJAX (fetch API)
             fetch('/users/signup', {
                 method: 'POST',
                 headers: {
@@ -55,14 +54,14 @@
                 },
                 body: data,
             })
-            .then(response => response.json())  // Parse the JSON response
+            .then(response => response.json())  
             .then(data => {
                 if (data.status === 200) {
-                    alert(data.message);  // Show success message
-                    // Optionally, redirect to login or another page
-                    window.location.href = '/users/login';  // Redirect to login page
+                    alert(data.message);  
+                   
+                    window.location.href = '/users/login';  
                 } else {
-                    alert('Error: ' + data.error);  // Show error message
+                    alert('Error: ' + data.error);  
                 }
             })
             .catch(error => {
