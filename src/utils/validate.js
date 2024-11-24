@@ -17,11 +17,7 @@ const options = {
     stripUnknown: true
 }
 
-const ProductSchema = Joi.object({
-    name: Joi.string().max(20).required(),
-    description: Joi.string().min(4).max(15),
-    price: Joi.number().min(4).max(15).required(),
-})
 
 
-module.exports = { registerSchema, options, ProductSchema}
+
+module.exports = { registerSchema, options}

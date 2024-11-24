@@ -36,7 +36,7 @@ router.post("/", async(req, res) => {
         res.json({status:500, message: "Unexpected error occurred", data: error.message})
     }
 
-})
+});
 
 
 async function validateUser(email, password, done) {
@@ -83,4 +83,4 @@ router.post('/login', async (req, res, next) => {
         next(err);
     }
 });
-module.exports = router;
+export default router;
