@@ -4,8 +4,8 @@ import { connectDB } from "./config/db.js";
 import userRouter from "./routes/user.js";
 import bodyParser from "body-parser";
 import passport from "passport";
-import session from "express-session"; // Import express-session
-import home from "./routes/home.js";
+import session from "express-session";
+// import home from "./routes/home.js";
 
 dotenv.config();
 
@@ -17,7 +17,7 @@ app.use(express.json());
 
 app.use(
     session({
-        secret: process.env.SECRET || "yourDefaultSecret", // Use an environment variable or a default secret
+        secret: process.env.SECRET || "yourDefaultSecret", 
         resave: false,
         saveUninitialized: false,
     })
@@ -28,8 +28,8 @@ app.use(passport.session());
 
 connectDB();
 
-app.use(express.json()); // Middleware to parse JSON
-app.use("/users", userRouter);
-app.use("/", home);
+app.use(express.json()); 
+app.use("/api/auth", userRouter);
+// app.use("/", home);
 
 export default app;

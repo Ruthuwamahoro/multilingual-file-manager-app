@@ -1,29 +1,52 @@
 import express from "express";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import passport from "passport";
+import LocalStrategy from "passport-local";
 import User from "../models/user.js";
 
 const router = express.Router();
 
-// Render Signup Page
-router.get("/signup", (req, res) => {
-    res.render("signup", { error: null });
+
+passport.use(
+    new LocalStrategy(
+        { usernameField: "email", passwordField: "password" },
+        async (email, password, done) => {
+            try {
+                const user = await User.findOne({ email });
+                if (!user) {
+                    return done(null, false, { message: "Invalid email" });
+                }
+                const isPasswordValid = await bcrypt.compare(password, user.password);
+                if (!isPasswordValid) {
+                    return done(null, false, { message: "Invalid password" });
+                }
+                return done(null, user);
+            } catch (error) {
+                return done(error);
+            }
+        }
+    )
+);
+
+passport.serializeUser((user, done) => {
+    done(null, user.id);
 });
 
-// Render Login Page
-router.get("/login", (req, res) => {
-    res.render("login", { error: null });
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (error) {
+        done(error, null);
+    }
 });
 
-
+// Routes
 router.post("/signup", async (req, res) => {
     try {
         const { username, email, gender, telephone, password } = req.body;
 
-        // Log the received data to inspect
-        console.log("Received data:", { username, email, gender, telephone, password });
-
-        // Validate that all fields are provided
         if (!username || !email || !gender || !telephone || !password) {
             return res.json({ status: 400, error: "All fields are required" });
         }
@@ -40,36 +63,22 @@ router.post("/signup", async (req, res) => {
         });
         await saveUser.save();
 
-        res.json({ status: 200, message: 'Sign Up successful' });
-
+        res.status(200).json({ status: 200, message: "Sign Up successful", data: null });
     } catch (error) {
         console.error("Error during signup:", error);
-        res.json({ status: 500, error: `Error registering user. ${error.message}` });
+        res.status(500).json({ status: 500, error: `Error registering user. ${error.message}`, data: null });
     }
 });
 
-
-router.post("/login", async (req, res) => {
-    try {
-        const { email, password } = req.body;
-
-        const user = await User.findOne({ email });
+router.post("/login", (req, res, next) => {
+    passport.authenticate("local", { session: false }, (err, user, info) => {
+        if (err) return next(err);
         if (!user) {
-            return res.status(400).json({ error: "Invalid email" });
+            return res.status(400).json({ status: 400, error: info.message });
         }
-
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(400).json({ error: "Invalid password" });
-        }
-
         const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
-        return res.json({ message: "Login successful", token });
-    } catch (error) {
-        console.error("Server error:", error);
-        return res.status(500).json({ error: "An unexpected error occurred. Please try again." });
-    }
+        res.status(200).json({ status: 200, message: "Login successful", data: token });
+    })(req, res, next);
 });
-
 
 export default router;
