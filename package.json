@@ -1,7 +1,7 @@
 {
   "name": "multilingual-file-manager-app",
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon server.js"
@@ -13,6 +13,7 @@
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
+    "aws-sdk": "^2.1692.0",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.21.1",
@@ -22,6 +23,7 @@
     "mongoose": "^8.8.2",
     "nodemon": "^3.1.7",
     "passport": "^0.7.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "multer": "1.4.5-lts.1",
   }
 }

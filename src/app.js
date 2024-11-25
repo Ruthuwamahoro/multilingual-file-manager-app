@@ -1,35 +1,49 @@
-import express from "express";
-import dotenv from "dotenv";
-import { connectDB } from "./config/db.js";
-import userRouter from "./routes/user.js";
-import bodyParser from "body-parser";
-import passport from "passport";
-import session from "express-session";
+// import express, { Router } from "express";
+// import dotenv from "dotenv";
+// import { connectDB } from "./config/db.js";
+// import  routerValue  from "./routes/file.route.js";
+// import path from "path";
+// dotenv.config()
+// const app = express();
+// app.use(express.json())
+// app.use("/api/files", routerValue)
+// connectDB()
+// export default app;
+const express = require('express');
+const mongoose = require('mongoose');
+const path = require('path');
+require('dotenv').config();
 
+// Import routes
+const authRoutes = require('./routes/auth.route');
+const fileRoutes = require('./routes/file.route');
+const directoryRoutes = require('./routes/directory.route');
 
-dotenv.config();
-
+// Create Express app
 const app = express();
-// app.set("views", "./src/views/");
-app.set("view engine", "ejs");
-app.use(bodyParser.urlencoded({ extended: true }));
+
+// Middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(
-    session({
-        secret: process.env.SECRET || "yourDefaultSecret", 
-        resave: false,
-        saveUninitialized: false,
-    })
-);
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('MongoDB connection error:', err));
 
-app.use(passport.initialize());
-app.use(passport.session());
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/files', fileRoutes);
+app.use('/api/directories', directoryRoutes);
 
-connectDB();
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ message: 'Something went wrong!' });
+});
 
-app.use(express.json()); 
-app.use("/api/auth", userRouter);
-
-
-export default app;
+// Start server
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
