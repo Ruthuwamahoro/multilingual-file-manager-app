@@ -5,12 +5,12 @@ import userRouter from "./routes/user.js";
 import bodyParser from "body-parser";
 import passport from "passport";
 import session from "express-session";
-// import home from "./routes/home.js";
+
 
 dotenv.config();
 
 const app = express();
-app.set("views", "./src/views/");
+// app.set("views", "./src/views/");
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
@@ -30,6 +30,6 @@ connectDB();
 
 app.use(express.json()); 
 app.use("/api/auth", userRouter);
-// app.use("/", home);
+
 
 export default app;
