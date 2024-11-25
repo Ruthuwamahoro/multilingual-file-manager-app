@@ -1,21 +1,21 @@
-import mongoose from "mongoose"
-import dotenv from "dotenv"
-dotenv.config()
+const mongoose = require("mongoose");
+require("dotenv").config()
+
 export const connectDB = async () => {
   try {
     if (!process.env.MONGODB_URI) {
-      console.error('MONGODB_URI is not defined in environment variables');
+      console.error('MONGODB_URI environment variable is not defined');
       process.exit(1);
     }
 
     await mongoose.connect(process.env.MONGODB_URI, { useUnifiedTopology: true });
-    console.log('MongoDB connected');
+    console.log('MongoDB is successfully connected...');
   } catch (error) {
     console.error('MongoDB connection error:', error);
     process.exit(1);
   }
 
   mongoose.connection.on('disconnected', () => {
-    console.log('MongoDB disconnected');
+    console.log('OOps! MongoDB disconnected...');
   });
 };
