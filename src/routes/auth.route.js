@@ -1,41 +1,80 @@
-const express = require('express');
-const jwt = require('jsonwebtoken');
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
 const User = require('../models/user.model');
-const auth = require('../middleware/auth.middleware');
-
+const jwt = require('jsonwebtoken');
+const bcrypt = require("bcryptjs");
+const express = require("express");
 const router = express.Router();
 
-router.post('/register', async (req, res) => {
-  try {
-    const { username, email, password } = req.body;
-    const user = new User({ username, email, password });
-    await user.save();
+passport.use(
+    new LocalStrategy(
+        { usernameField: "email", passwordField: "password" },
+        async (email, password, done) => {
+            try {
+                const user = await User.findOne({ email });
+                if (!user) {
+                    return done(null, false, { message: "Invalid email" });
+                }
+                const isPasswordValid = await bcrypt.compare(password, user.password);
+                if (!isPasswordValid) {
+                    return done(null, false, { message: "Invalid password" });
+                }
+                return done(null, user);
+            } catch (error) {
+                return done(error);
+            }
+        }
+    )
+);
 
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-    res.status(201).json({ data: token , message: "Successfully registered", status: 200 });
-  } catch (error) {
-    res.status(400).json({ data: null, message: 'Registration failed', error: error.message , status: 400});
-  }
+passport.serializeUser((user, done) => {
+    done(null, user.id);
 });
 
-router.post('/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-
-    if (!user || !(await user.comparePassword(password))) {
-      return res.status(401).json({data: null, message: 'Invalid credentials', status: 401 });
+passport.deserializeUser(async (id, done) => {
+    try {
+        const user = await User.findById(id);
+        done(null, user);
+    } catch (error) {
+        done(error, null);
     }
-
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-    res.status(200).json({data: token, message: "Successfully logged in",  error: null, status: 200 });
-  } catch (error) {
-    res.status(400).json({ message: 'Login failed', error: error.message, data: null, status: 400 });
-  }
 });
 
-router.get('/profile', auth, async (req, res) => {
-  res.json(req.user);
+router.post("/signup", async (req, res) => {
+    try {
+        const { username, email, gender, telephone, password } = req.body;
+
+        if (!username || !email || !gender || !telephone || !password) {
+            return res.json({ status: 400, error: "All fields are required" });
+        }
+
+        const saltRounds = 10;
+        const hash = await bcrypt.hash(password, saltRounds);
+
+        const saveUser = new User({
+            username,
+            email,
+            gender,
+            telephone,
+            password: hash,
+        });
+        await saveUser.save();
+        res.status(200).json({ status: 200, message: "Sign Up successful", data: null });
+    } catch (error) {
+        console.error("Error during signup:", error);
+        res.status(500).json({ status: 500, error: `Error registering user. ${error.message}`, data: null });
+    }
 });
 
-module.exports = router;
+router.post("/login", (req, res, next) => {
+    passport.authenticate("local", { session: false }, (err, user, info) => {
+        if (err) return next(err);
+        if (!user) {
+            return res.status(400).json({ status: 400, error: info.message });
+        }
+        const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
+        res.status(200).json({ status: 200, message: "Login successful", data: token });
+    })(req, res, next);
+});
+
+module.exports = router
