@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 require("dotenv").config()
 
-export const connectDB = async () => {
+const connectDB = async () => {
   try {
     if (!process.env.MONGODB_URI) {
       console.error('MONGODB_URI environment variable is not defined');
@@ -19,3 +19,5 @@ export const connectDB = async () => {
     console.log('OOps! MongoDB disconnected...');
   });
 };
+
+module.exports = connectDB

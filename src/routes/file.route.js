@@ -57,7 +57,8 @@ router.get('/', auth, async (req, res) => {
     const files = await File.find({
       $or: [{ owner: req.user._id }, { sharedWith: req.user._id }],
     }).populate('directory');
-    res.json(files);
+    console.log("this is fantastics files", files)
+    res.status(200).json({status: 200, messsage: "Files retrieved successfully", data: files});
   } catch (error) {
     res.status(500).json({ message: 'Error fetching files', error: error.message, data: null });
   }

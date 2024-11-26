@@ -45,7 +45,25 @@ router.post("/signup", async (req, res) => {
         const { username, email, gender, telephone, password } = req.body;
 
         if (!username || !email || !gender || !telephone || !password) {
-            return res.json({ status: 400, error: "All fields are required" });
+            return res.status(400).json({ status: 400, message: "All fields are required", data: null });
+        }
+
+        const existingUsername = await User.findOne({ username });
+        if (existingUsername) {
+            return res.status(400).json({ 
+                status: 400, 
+                message: "Username is already in use" ,
+                data: null
+            });
+        }
+
+        const existingEmail = await User.findOne({ email });
+        if (existingEmail) {
+            return res.status(400).json({ 
+                status: 400, 
+                message: "Email is already registered",
+                data: null
+            });
         }
 
         const saltRounds = 10;
@@ -58,11 +76,30 @@ router.post("/signup", async (req, res) => {
             telephone,
             password: hash,
         });
+
         await saveUser.save();
-        res.status(200).json({ status: 200, message: "Sign Up successful", data: null });
+
+        res.status(200).json({ 
+            status: 200, 
+            message: "Successfully logged in", 
+            data: null 
+        });
+
     } catch (error) {
+        if (error.code === 11000) {
+            const field = Object.keys(error.keyPattern)[0];
+            return res.status(400).json({ 
+                status: 400, 
+                error: `${field.charAt(0).toUpperCase() + field.slice(1)} already exists` 
+            });
+        }
+
         console.error("Error during signup:", error);
-        res.status(500).json({ status: 500, error: `Error registering user. ${error.message}`, data: null });
+        res.status(500).json({ 
+            status: 500, 
+            error: `Error registering user. ${error.message}`, 
+            data: null 
+        });
     }
 });
 
@@ -72,7 +109,8 @@ router.post("/login", (req, res, next) => {
         if (!user) {
             return res.status(400).json({ status: 400, error: info.message });
         }
-        const token = jwt.sign({ id: user._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
+
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
         res.status(200).json({ status: 200, message: "Login successful", data: token });
     })(req, res, next);
 });

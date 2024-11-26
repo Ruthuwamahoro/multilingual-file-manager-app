@@ -9,6 +9,6 @@ const userSchema = new mongoose.Schema({
   telephone: { type: String, required: true },
   password: { type: String, required: true,     minlength: 8, },
 });
-
+userSchema.index({ username: 1, email: 1 }, { unique: true });
 const User = mongoose.model('User', userSchema);
 module.exports = User;
