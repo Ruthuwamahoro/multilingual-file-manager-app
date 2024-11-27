@@ -1,0 +1,7 @@
+{
+    "invalid_email": "E-mail invalide",
+    "invalid_password": "Mot de passe invalide",
+    "all_fields_required": "Tous les champs sont requis",
+    "signup_success": "Inscription réussie",
+    "login_success": "Connexion réussie"
+}
