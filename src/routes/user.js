@@ -41,7 +41,7 @@ passport.deserializeUser(async (id, done) => {
     }
 });
 
-// Routes
+
 router.post("/signup", async (req, res) => {
     console.log("Localization Test:", req.t("signup_success")); 
     try {
