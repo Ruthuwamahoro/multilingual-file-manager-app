@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+
 const fileSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -9,7 +10,6 @@ const fileSchema = new mongoose.Schema({
   },
   path: {
     type: String,
-    required: true,
   },
   size: {
     type: Number,
@@ -27,7 +27,7 @@ const fileSchema = new mongoose.Schema({
   directory: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Directory',
-    default: null, 
+    required: true 
   },
   sharedWith: [{
     type: mongoose.Schema.Types.ObjectId,

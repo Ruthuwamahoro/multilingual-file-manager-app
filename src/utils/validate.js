@@ -1,4 +1,4 @@
-import Joi from "joi";
+const Joi = require("joi")
 
 const registerSchema = Joi.object({
   email: Joi.string().email().required(),
@@ -20,4 +20,4 @@ const options = {
   stripUnknown: true,
 };
 
-export { registerSchema, options };
+module.export = { registerSchema, options };

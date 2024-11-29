@@ -1,0 +1,59 @@
+{
+  "common": {
+    "error": {
+      "server": "Une erreur est survenue",
+      "unauthorized": "Accès non autorisé",
+      "validation": "La validation a échoué",
+      "missing_fields": "Tous les champs sont requis",
+      "duplicate_field": "{field} existe déjà",
+      "invalid_email": "Email invalide",
+      "invalid_password": "Mot de passe invalide"
+    }
+  },
+  "file": {
+    "upload": {
+      "queued": "Téléchargement de fichier mis en file d'attente avec succès",
+      "error": "Échec du téléchargement du fichier",
+      "duplicate": "Un fichier portant ce nom existe déjà dans le répertoire spécifié",
+      "size_limit": "La taille du fichier dépasse la limite maximale de 50 Mo"
+    },
+    "list": {
+      "success": "Fichiers récupérés avec succès",
+      "not_found":"Fichier introuvable",
+      "error": "Erreur lors de la récupération des fichiers"
+    },
+    "update": {
+      "success": "Fichiers mis à jour avec succès",
+      "not_found": "Fichier introuvable",
+      "queued":"Mise à jour du fichier en file d'attente réussie",
+      "error": "Erreur lors de la mise à jour des fichiers"
+    },
+    "delete": {
+      "success": "Fichier supprimé avec succès",
+      "not_found":"Fichier introuvable",
+      "error": "Erreur lors de la suppression du fichier"
+    },
+    "share": {
+      "success": "Fichier partagé avec succès",
+      "error": "Erreur lors du partage du fichier"
+    }
+  },
+  "job": {
+    "not_found": "Tâche non trouvée",
+    "status": {
+      "error": "Erreur lors de la récupération du statut de la tâche"
+    }
+  },
+  "auth": {
+    "login": {
+      "success": "Connexion réussie",
+      "error": "Identifiants invalides"
+    },
+    "register": {
+      "success": "Utilisateur enregistré avec succès",
+      "error": "L'enregistrement a échoué",
+      "username_taken": "Le nom d'utilisateur est déjà utilisé",
+      "email_registered": "L'email est déjà enregistré"
+    }
+  }
+}

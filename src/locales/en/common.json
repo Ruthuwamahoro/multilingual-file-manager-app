@@ -1,0 +1,59 @@
+{
+  "common": {
+    "error": {
+      "server": "Something went wrong",
+      "unauthorized": "Unauthorized access",
+      "validation": "Validation failed",
+      "missing_fields": "All fields are required",
+      "duplicate_field": "{field} already exists",
+      "invalid_email": "Invalid email",
+      "invalid_password": "Invalid password"
+    }
+  },
+  "file": {
+    "upload": {
+      "queued": "File upload queued successfully",
+      "error": "File upload failed",
+      "duplicate": "A file with this name already exists in the specified directory",
+      "size_limit": "File size exceeds the maximum limit of 50MB"
+    },
+    "list": {
+      "success": "Files retrieved successfully",
+      "not_found": "File not found",
+      "error": "Error fetching files"
+    },
+    "update": {
+      "success": "Files updated successfully",
+      "not_found": "File not found",
+      "error": "Error updating file files",
+      "queued": "File updated queued successfully"
+    },
+    "delete": {
+      "success": "File deleted successfully",
+      "not_found": "File not found",
+      "error": "Error deleting file"
+    },
+    "share": {
+      "success": "File shared successfully",
+      "error": "Error sharing file"
+    }
+  },
+  "job": {
+    "not_found": "Job not found",
+    "status": {
+      "error": "Error retrieving job status"
+    }
+  },
+  "auth": {
+    "login": {
+      "success": "Successfully logged in",
+      "error": "Invalid credentials"
+    },
+    "register": {
+      "success": "User registered successfully",
+      "error": "Registration failed",
+      "username_taken": "Username is already in use",
+      "email_registered": "Email is already registered"
+    }
+  }
+}

@@ -4,7 +4,6 @@ const config = require('../config/config');
 
 async function initializeApp() {
   try {
-    // Create uploads directory if it doesn't exist
     const uploadPath = path.resolve(config.upload.path);
     try {
       await fs.access(uploadPath);
@@ -13,7 +12,6 @@ async function initializeApp() {
       console.log('Created uploads directory');
     }
 
-    // Ensure environment variables are set
     const requiredEnvVars = ['JWT_SECRET', 'MONGODB_URI'];
     const missingVars = requiredEnvVars.filter(varName => !process.env[varName]);
     
