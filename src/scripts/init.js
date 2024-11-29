@@ -19,10 +19,7 @@ async function initializeApp() {
       console.warn('Warning: Missing environment variables:', missingVars.join(', '));
       console.warn('Please set these variables in your .env file');
     }
-
-    console.log('Initialization complete');
   } catch (error) {
-    console.error('Initialization failed:', error);
     process.exit(1);
   }
 }

@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha tests/file.test.js",
     "dev": "nodemon app.js"
   },
   "keywords": [],
@@ -17,6 +17,8 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "bull": "^4.16.4",
+    "chai": "^4.3.4",
+    "chai-http": "^5.1.1",
     "cloudinary": "^2.5.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
@@ -29,12 +31,15 @@
     "i18next-http-middleware": "^3.7.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.2",
+    "mocha": "^10.8.2",
     "mongoose": "^8.8.2",
     "multer": "1.4.5-lts.1",
     "nodemon": "^3.1.7",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
-    "redis-server": "^1.2.2"
+    "redis-server": "^1.2.2",
+    "sinon": "^19.0.2",
+    "supertest": "^7.0.0"
   }
 }

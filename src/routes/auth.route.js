@@ -4,7 +4,6 @@ const LocalStrategy = require("passport-local").Strategy;
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const User = require("../models/user.model");
-const Queue = require("bull");
 const { i18next } = require("../config/i18next");
 const setLanguageMiddleware = require("../utils/setLanguage")
 require("dotenv").config();
@@ -96,18 +95,12 @@ router.post("/signup", async (req, res) => {
 
     await newUser.save();
 
-    fileUploadQueue.add({
-      userId: newUser._id,
-      username: newUser.username,
-    });
-
     return res.status(201).json({
       status: 201,
       message: i18next.t("auth.register.success", { lng: req.language || "en" }),
       data: null,
     });
   } catch (error) {
-    console.error("Signup error:", error);
     return res.status(500).json({
       status: 500,
       message: i18next.t("auth.register.error", { lng: req.language || "en" }),

@@ -58,3 +58,5 @@ app.use((err, req, res, next) => {
 
 connectDB();
 app.listen(Port, () => console.log(`App listening on port ${Port}`));
+
+module.exports = app

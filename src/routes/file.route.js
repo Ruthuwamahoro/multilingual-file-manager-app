@@ -67,14 +67,6 @@ fileUploadQueue.process(async (job) => {
   }
 });
 
-fileUploadQueue.on('completed', (job, result) => {
-  console.log(`Job ${job.id} completed with result:`, result);
-});
-
-fileUploadQueue.on('failed', (job, err) => {
-  console.error(`Job ${job.id} failed with error:`, err);
-});
-
 
 router.post('/', auth, upload.single('file'), async (req, res) => {
   try {
@@ -94,7 +86,6 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
     const cloudinaryResponse = await cloudinary.uploader.upload(path, {
       folder: directory || 'uploads',
     });
-    console.log("responssseee======", cloudinaryResponse)
     const existingFile = await File.findOne({
       name: originalname,
       path: cloudinaryResponse.secure_url,
@@ -130,7 +121,6 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
       data: newFile,
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       message: i18next.t('file.upload.error', { lng: req.language || 'en', error: error.message }),
       error: error.message,
@@ -138,87 +128,6 @@ router.post('/', auth, upload.single('file'), async (req, res) => {
     });
   }
 });
-
-
-// router.post('/', auth, upload.single('file'), async (req, res) => {
-//   try {
-//     if (!req.file) {
-//       return res.status(400).json({
-//         message: i18next.t('file.upload.no_file', { lng: req.language || 'en' }),
-//         status: 400,
-//         data: null,
-//       });
-//     }
-
-//     const { originalname, path, size, mimetype } = req.file;
-//     const { directory, name } = req.body;
-//     const lng = req.language || 'en';
-    
-//     const fileName = name || originalname;
-    
-//     if (!fileName) {
-//       return res.status(400).json({
-//         message: i18next.t('file.upload.no_name', { lng }),
-//         status: 400,
-//         data: null,
-//       });
-//     }
-
-//     const existingFile = await File.findOne({
-//       name: fileName,
-//       path,
-//       size,
-//       type: mimetype,
-//       directory: directory || null,
-//       owner: req.user._id,
-//     });
-
-//     if (existingFile) {
-//       await fs.unlink(path).catch(err => {
-//         console.error('Failed to delete file:', err);
-//       });
-
-//       return res.status(400).json({
-//         message: i18next.t('file.upload.duplicate', { lng }),
-//         status: 400,
-//         data: null,
-//       });
-//     }
-
-//     const job = await fileUploadQueue.add({
-//       file: {
-//         name: fileName,
-//         path,
-//         size,
-//         mimetype
-//       },
-//       userId: req.user._id,
-//       directory
-//     }, {
-//       attempts: 3,
-//       backoff: {
-//         type: 'exponential',
-//         delay: 1000
-//       }
-//     });
-
-//     res.status(202).json({
-//       message: i18next.t('file.upload.queued', { lng }),
-//       jobId: job.id,
-//       status: 202
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ 
-//       message: i18next.t('file.upload.error', { 
-//         lng: req.language || 'en', 
-//         error: error.message 
-//       }), 
-//       error: error.message, 
-//       status: 500 
-//     });
-//   }
-// });
 
 router.get('/', auth, async (req, res) => {
   try {
@@ -303,7 +212,7 @@ router.patch('/:id', auth, upload.single('file'), async (req, res) => {
     try {
       await fs.unlink(file.path); 
     } catch (error) {
-      console.error('Error deleting old file:', error);
+      return error
     }
 
     const job = await fileUploadQueue.add({
@@ -337,7 +246,6 @@ router.patch('/:id', auth, upload.single('file'), async (req, res) => {
       status: 202,
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({
       message: i18next.t('file.update.error', {
         lng: req.language || 'en',
