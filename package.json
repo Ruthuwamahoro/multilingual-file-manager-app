@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "type": "commonjs",
   "scripts": {
-    "test": "mocha tests/file.test.js",
+    "test": "mocha tests/*.js",
     "dev": "nodemon app.js"
   },
   "keywords": [],

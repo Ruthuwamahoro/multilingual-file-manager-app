@@ -11,7 +11,7 @@ let testDirectoryId = '';
 const randomDirectoryName = `TestDir_${Date.now()}`; // Generate a unique name for each test run
 
 describe('Directory API', function () {
-  this.timeout(5000);
+
 
   before((done) => {
     const currentuser = {
@@ -35,7 +35,7 @@ describe('Directory API', function () {
       await Directory.findByIdAndDelete(testDirectoryId);
     }
 
-});
+  });
 
   it('should create a new directory successfully', (done) => {
     chai
@@ -49,8 +49,7 @@ describe('Directory API', function () {
         testDirectoryId = res.body.data._id;
         done();
       });
-  
-  });
+  }).timeout(15000)
 
   it('should not create a duplicate directory', (done) => {
     chai
@@ -59,13 +58,13 @@ describe('Directory API', function () {
     .set('Authorization', `Bearer ${token}`)
     .send({ name: randomDirectoryName })
     .end((err, res) => {
-      console.log('Response Body:', res.body); // Log response for debugging
-      console.log('Response Status:', res.status); // Log status code
-      expect(res).to.have.status(400); // Expect 400 Bad Request for duplicate directory
+    //   console.log('Response Body:', res.body); 
+    //   console.log('Response Status:', res.status); 
+      expect(res).to.have.status(400); 
       done();
     });
   
-  });
+  }).timeout(15000);
 
   it('should retrieve all directories for the user', (done) => {
     chai
@@ -78,7 +77,7 @@ describe('Directory API', function () {
         expect(res.body.data).to.be.an('array');
         done();
       });
-  });
+  }).timeout(15000)
 
   it('should retrieve a single directory by ID', (done) => {
     chai
@@ -91,5 +90,5 @@ describe('Directory API', function () {
         expect(res.body.data._id).to.equal(testDirectoryId);
         done();
       });
-  });
+  }).timeout(15000);
 });

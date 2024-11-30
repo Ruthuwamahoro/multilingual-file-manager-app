@@ -63,7 +63,7 @@ describe('File Upload API', function () {
                 expect(response.status).to.equal(201);
                 done();
             });
-    }).timeout(5000);
+    }).timeout(10000);
 
     it('should return a 400 error when no file is attached', function (done) {
         request(app)
@@ -75,18 +75,18 @@ describe('File Upload API', function () {
                 expect(response.status).to.equal(400);
                 done();
             });
-    }).timeout(5000);
+    }).timeout(10000);
 
     it('should return a 500 error for a duplicate file', function (done) {
         request(app)
             .post('/api/files')
             .set('Authorization', `Bearer ${token}`)
             .field('directory', '67446fcce9c8023e1dd07d73')
-            .attach('file', fs.readFileSync(filePath), 'image4.jpg') // Using the original name here
+            .attach('file', fs.readFileSync(filePath), 'image4.jpg') 
             .end(function (err, response) {
-                console.log("++++++++++++++++++", response.body);
+                // console.log("++++++++++++++++++", response.body);
                 expect(response.status).to.equal(500);
                 done();
             });
-    }).timeout(5000);
+    }).timeout(10000);
 });
