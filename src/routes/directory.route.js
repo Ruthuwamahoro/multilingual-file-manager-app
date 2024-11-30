@@ -38,9 +38,20 @@ router.post('/', auth, async (req, res) => {
     await directory.save();
     res.status(200).json({ status: 200, message: 'Successfully created directory', data: directory });
   } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({
+        message: 'A directory with this name already exists in the specified path',
+        error: error.message,
+        status: 400,
+      });
+    }
+
+    // General error handling
+    console.error('Error creating directory:', error.stack);
     res.status(500).json({ message: 'Directory creation failed', error: error.message, status: 500 });
   }
 });
+
 
 
 router.get('/', auth, async (req, res) => {
