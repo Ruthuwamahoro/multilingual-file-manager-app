@@ -22,6 +22,7 @@ npm run dev
 ```
 
 ##Technologies used
+   ```
     -*Backend*: Node.js
     -*Database*: MongoDB with Mongoose
     -*Authentication*: `bcryptjs` for hashing password and `passport` for authentication
@@ -29,6 +30,7 @@ npm run dev
     -*Internationalization*: i18n package
     -*File upload and Cloud Storage*: Multer & Cloudinary
     -*Queuing*: `bull`
+  ```
 
 ### Running tests using NPM Scripts
 ````
