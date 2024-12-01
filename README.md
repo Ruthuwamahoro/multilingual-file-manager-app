@@ -47,7 +47,7 @@ Test files are created under tests folder.
 ```
 
 
-## AUTHENTICATING ROUTES
+## ROUTES FOR AUTHENTICATION, FILES AND DIRECTORY UPLOADS
 
 #### 1. **Sign Up** (`POST`)
 Use this route to create a new user account.
@@ -81,11 +81,13 @@ Use this route to Login.
 
 ### 3. **Files** (`POST,GET,PATCH,DELETE`)
 use this route to upload files
- http://localhost:5000/api/files/   
+    
+    http://localhost:5000/api/files/   
 
 ### 4. **Directories** (`POST,GET,PATCH,DELETE`)
 use this route to upload files
- http://localhost:5000/api/directories/   
+    
+    http://localhost:5000/api/directories/   
 
 
 ## PROJECT STRUCTURE
