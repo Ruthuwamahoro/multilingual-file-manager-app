@@ -2,7 +2,7 @@
 
 # Pre-requisites
 - Install [Node.js](https://nodejs.org/en/)
--  [MongoDB](https://www.mongodb.com/)
+- Install [MongoDB](https://www.mongodb.com/)
 
 
 # Getting started
@@ -39,22 +39,42 @@ npm run test
 ````
 Test files are created under tests folder.
 
+##LANGUAGES:
+```
+  English: en
+  French: fr
+  replace {language} with either en or fr when using the authentication routes
+```
+
 ## AUTHENTICATION ROUTES
-    #### 1. **Sign Up** (`POST /api/auth/signup`)
+
+    #### 1. **Sign Up** (`POST`)
     Use this route to create a new user account.
+    
+    http://localhost:5000/api/auth/signup?{language}  
+    
+    **Request Body**:  
+    ```json
+    {   
+        "username": "test",
+        "email": "test@gmail.com",
+        "password": "Password123",
+        "gender": "female",
+        "telephone": "123233443"
+    }```
+
+
+#### 1. **Login ** (`POST`)
+    Use this route to Login.
     
     http://localhost:5000/api/auth/login   
     
     **Request Body**:  
     ```json
     {   
-    "username": "test",
-    "email": "test@gmail.com",
-    "password": "Password123",
-    "gender": "female",
-    "telephone": "123233443"
+        "email": "test@gmail.com",
+        "password": "Password123",
     }```
-
 
 
 ## PROJECT STRUCTURE
