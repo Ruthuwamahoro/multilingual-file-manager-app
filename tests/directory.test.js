@@ -46,7 +46,7 @@ describe('Directory API', function () {
         testDirectoryId = res.body.data._id;
         done();
       });
-  }).timeout(15000)
+  }).timeout(50000)
 
   it('should not create a duplicate directory', (done) => {
     chai

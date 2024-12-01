@@ -52,7 +52,7 @@ Test files are created under tests folder.
 #### 1. **Sign Up** (`POST`)
 Use this route to create a new user account.
     
-    http://localhost:5000/api/auth/signup?{language}  
+    http://localhost:5000/api/auth/signup?lng={fr/en}  
     
 **Request Body**:  
 ```json
@@ -69,7 +69,7 @@ Use this route to create a new user account.
 #### 2. **Login ** (`POST`)
 Use this route to Login.
     
-    http://localhost:5000/api/auth/login?{language}   
+    http://localhost:5000/api/auth/login?lng={fr/en}   
     
 **Request Body**:  
 ```json
@@ -87,7 +87,16 @@ use this route to upload files
 ### 4. **Directories** (`POST,GET,PATCH,DELETE`)
 use this route to upload files
     
-    http://localhost:5000/api/directories/   
+    http://localhost:5000/api/directories/  
+
+The following route is used to retrieve all files by directory id
+    http://localhost:5000/api/directories/${:id}/files
+
+
+### 5. **Share** (`POST`)
+This route is used to share files
+
+    http://localhost:5000/api/files/{$id}/share
 
 
 ## PROJECT STRUCTURE

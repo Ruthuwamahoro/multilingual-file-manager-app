@@ -190,4 +190,45 @@ router.delete('/:id', auth, async (req, res) => {
   }
 });
 
+
+router.post('/directories/:id/files', auth, async (req, res) => {
+  try {
+    const directoryId = req.params.id;
+
+    const directory = await Directory.findOne({ 
+      _id: directoryId, 
+      owner: req.user._id 
+    });
+
+    if (!directory) {
+      return res.status(404).json({ 
+        message: 'Directory not found', 
+        status: 404, 
+        data: null 
+      });
+    }
+
+    const files = await File.find({ 
+      directory: directoryId,
+      owner: req.user._id
+    }).select('name path size type createdAt');
+
+    res.status(200).json({
+      message: 'Files retrieved successfully',
+      status: 200,
+      data: {
+        directory: directory.name,
+        totalFiles: files.length,
+        files: files
+      }
+    });
+
+  } catch (error) {
+    res.status(500).json({ 
+      message: 'Error retrieving files', 
+      error: error.message, 
+      status: 500 
+    });
+  }
+});
 module.exports = router;

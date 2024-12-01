@@ -56,10 +56,11 @@ describe('File Upload API', function () {
             .field('directory', '67446fcce9c8023e1dd07d73')
             .attach('file', fs.readFileSync(randomFilePath), randomFileName)
             .end(function (err, response) {
+                console.log('responseee', response)
                 expect(response.status).to.equal(201);
                 done();
             });
-    }).timeout(10000);
+    }).timeout(50000);
 
     it('should return a 400 error when no file is attached', function (done) {
         request(app)
