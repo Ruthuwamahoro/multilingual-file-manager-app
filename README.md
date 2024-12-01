@@ -54,27 +54,29 @@ Use this route to create a new user account.
     http://localhost:5000/api/auth/signup?{language}  
     
 **Request Body**:  
-    ```json
+```json
     {   
         "username": "test",
         "email": "test@gmail.com",
         "password": "Password123",
         "gender": "female",
         "telephone": "123233443"
-    }```
+    }
+```
 
 
 #### 2. **Login ** (`POST`)
 Use this route to Login.
     
-    http://localhost:5000/api/auth/login   
+    http://localhost:5000/api/auth/login?{language}   
     
 **Request Body**:  
-    ```json
+```json
     {   
         "email": "test@gmail.com",
         "password": "Password123",
-    }```
+    }
+```
 
 
 ## PROJECT STRUCTURE
