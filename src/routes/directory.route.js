@@ -46,8 +46,6 @@ router.post('/', auth, async (req, res) => {
       });
     }
 
-    // General error handling
-    console.error('Error creating directory:', error.stack);
     res.status(500).json({ message: 'Directory creation failed', error: error.message, status: 500 });
   }
 });

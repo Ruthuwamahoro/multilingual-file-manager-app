@@ -7,11 +7,10 @@ const request = require('supertest');
 chai.use(chaiHttp);
 const { expect } = chai;
 
-// Dynamically generate a random file name for each test run
 const generateRandomFileName = (originalName) => {
-    const extension = path.extname(originalName); // Get the file extension
-    const baseName = path.basename(originalName, extension); // Get the base name
-    const timestamp = Date.now(); // Use timestamp as a unique identifier
+    const extension = path.extname(originalName); 
+    const baseName = path.basename(originalName, extension);
+    const timestamp = Date.now();
     return `${baseName}_${timestamp}${extension}`;
 };
 
@@ -41,12 +40,10 @@ describe('File Upload API', function () {
     });
 
     before(() => {
-        // Copy the original file to create a new one with the random name
         fs.copyFileSync(filePath, randomFilePath);
     });
 
     after(() => {
-        // Clean up the generated file after tests
         if (fs.existsSync(randomFilePath)) {
             fs.unlinkSync(randomFilePath);
         }
@@ -59,7 +56,6 @@ describe('File Upload API', function () {
             .field('directory', '67446fcce9c8023e1dd07d73')
             .attach('file', fs.readFileSync(randomFilePath), randomFileName)
             .end(function (err, response) {
-                console.log("++++++++++++++++++", response.body);
                 expect(response.status).to.equal(201);
                 done();
             });
@@ -71,7 +67,6 @@ describe('File Upload API', function () {
             .set('Authorization', `Bearer ${token}`)
             .field('directory', '67446fcce9c8023e1dd07d73')
             .end(function (err, response) {
-                console.log("++++++++++++++++++", response.body);
                 expect(response.status).to.equal(400);
                 done();
             });
@@ -84,7 +79,6 @@ describe('File Upload API', function () {
             .field('directory', '67446fcce9c8023e1dd07d73')
             .attach('file', fs.readFileSync(filePath), 'image4.jpg') 
             .end(function (err, response) {
-                // console.log("++++++++++++++++++", response.body);
                 expect(response.status).to.equal(500);
                 done();
             });

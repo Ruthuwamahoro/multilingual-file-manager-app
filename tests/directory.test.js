@@ -8,11 +8,8 @@ chai.use(chaiHttp);
 
 let token = '';
 let testDirectoryId = '';
-const randomDirectoryName = `TestDir_${Date.now()}`; // Generate a unique name for each test run
-
+const randomDirectoryName = `TestDir_${Date.now()}`; 
 describe('Directory API', function () {
-
-
   before((done) => {
     const currentuser = {
       email: 'test@gmail.com',
@@ -57,9 +54,7 @@ describe('Directory API', function () {
     .post('/api/directories')
     .set('Authorization', `Bearer ${token}`)
     .send({ name: randomDirectoryName })
-    .end((err, res) => {
-    //   console.log('Response Body:', res.body); 
-    //   console.log('Response Status:', res.status); 
+    .end((err, res) => { 
       expect(res).to.have.status(400); 
       done();
     });

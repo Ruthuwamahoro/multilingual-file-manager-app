@@ -9,7 +9,6 @@ async function initializeApp() {
       await fs.access(uploadPath);
     } catch {
       await fs.mkdir(uploadPath, { recursive: true });
-      console.log('Created uploads directory');
     }
 
     const requiredEnvVars = ['JWT_SECRET', 'MONGODB_URI'];

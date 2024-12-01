@@ -52,7 +52,6 @@ app.use('/api/files', fileRoutes);
 app.use('/api/directories', directoryRoutes);
 
 app.use((err, req, res, next) => {
-  console.error(err.stack);
   res.status(500).json({ status: 500, message: err.message, data: null });
 });
 
