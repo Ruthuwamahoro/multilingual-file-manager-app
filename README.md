@@ -109,3 +109,7 @@ multilingual-file-manager-app/
 └── README.md           # Project documentation
 ```
 
+
+## Contributors
+    [Ruth Uwamahoro](https://github.com/Ruthuwamahoro)
+    [Irene Akawin Agigiba](https://github.com/agigibairene)
