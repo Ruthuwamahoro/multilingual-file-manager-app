@@ -42,6 +42,7 @@ Test files are created under tests folder.
 
 ## PROJECT STRUCTURE
 multilingual-file-manager-app/
+```
 ├── src/
 │   ├── config/         # Configuration for services, i18n, queue and db
 │   ├── locales/        # Localization files for i18n
@@ -56,4 +57,5 @@ multilingual-file-manager-app/
 ├── .env                # Environment configuration
 ├── package.json        # Project metadata and dependencies
 └── README.md           # Project documentation
+```
 
