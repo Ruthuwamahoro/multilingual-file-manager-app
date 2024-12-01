@@ -39,6 +39,23 @@ npm run test
 ````
 Test files are created under tests folder.
 
+## AUTHENTICATION ROUTES
+    #### 1. **Sign Up** (`POST /api/auth/signup`)
+    Use this route to create a new user account.
+    
+    http://localhost:5000/api/auth/login   
+    
+    **Request Body**:  
+    ```json
+    {   
+    "username": "test",
+    "email": "test@gmail.com",
+    "password": "Password123",
+    "gender": "female",
+    "telephone": "123233443"
+    }```
+
+
 
 ## PROJECT STRUCTURE
 multilingual-file-manager-app/
