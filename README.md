@@ -48,12 +48,12 @@ Test files are created under tests folder.
 
 ## AUTHENTICATION ROUTES
 
-    #### 1. **Sign Up** (`POST`)
-    Use this route to create a new user account.
+#### 1. **Sign Up** (`POST`)
+Use this route to create a new user account.
     
     http://localhost:5000/api/auth/signup?{language}  
     
-    **Request Body**:  
+**Request Body**:  
     ```json
     {   
         "username": "test",
@@ -64,12 +64,12 @@ Test files are created under tests folder.
     }```
 
 
-#### 1. **Login ** (`POST`)
-    Use this route to Login.
+#### 2. **Login ** (`POST`)
+Use this route to Login.
     
     http://localhost:5000/api/auth/login   
     
-    **Request Body**:  
+**Request Body**:  
     ```json
     {   
         "email": "test@gmail.com",
