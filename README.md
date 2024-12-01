@@ -46,7 +46,8 @@ Test files are created under tests folder.
   replace {language} with either en or fr when using the authentication routes
 ```
 
-## AUTHENTICATION ROUTES
+
+## AUTHENTICATING ROUTES
 
 #### 1. **Sign Up** (`POST`)
 Use this route to create a new user account.
@@ -77,6 +78,14 @@ Use this route to Login.
         "password": "Password123",
     }
 ```
+
+### 3. **Files** (`POST,GET,PATCH,DELETE`)
+use this route to upload files
+ http://localhost:5000/api/files/   
+
+### 4. **Directories** (`POST,GET,PATCH,DELETE`)
+use this route to upload files
+ http://localhost:5000/api/directories/   
 
 
 ## PROJECT STRUCTURE
