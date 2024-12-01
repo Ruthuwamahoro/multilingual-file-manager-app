@@ -111,5 +111,5 @@ multilingual-file-manager-app/
 
 
 ## Contributors
-    [Ruth Uwamahoro](https://github.com/Ruthuwamahoro)
-    [Irene Akawin Agigiba](https://github.com/agigibairene)
+   - [Ruth Uwamahoro](https://github.com/Ruthuwamahoro)
+   - [Irene Agigiba](https://github.com/agigibairene)
